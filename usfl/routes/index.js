@@ -32,7 +32,7 @@ router.get('/usfl/:page', function(req, res) {
 // add the player ratings for the current season
 function showPlayer(req, res, player) {
   var db = req.db;
-  var collection = db.get('player_ratings');
+  var collection = db.get('ratings');
   var playerId = player['Player_ID'];
   collection.findOne({'Player_ID': playerId, 'sbYear': '2035'}, {}, function(e, docs) {
     docs.coll = 'player_ratings';
@@ -78,7 +78,7 @@ router.get('/player/:year', function(req, res) {
   var db = req.db;
   var collection = db.get('ratings');
   var year = req.param('year');
-  collection.findOne({'sbYear': year}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
+  collection.find({'sbYear': year}, ['Player_ID'], function(e, docs) {
     res.send(JSON.stringify(docs));
   });
 });

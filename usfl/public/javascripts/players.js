@@ -12,7 +12,8 @@ $(document).ready(function() {
 });
 
 function getPlayers(data) {
-  data.forEach(function(playerId) {
+  data.forEach(function(player) {
+    var playerId = player.Player_ID;
     $.ajax({
         type: "GET",
         url: "http://usflga.me:3000/playerid/" + playerId,
