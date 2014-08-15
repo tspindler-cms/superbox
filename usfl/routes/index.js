@@ -74,6 +74,15 @@ router.get('/player/', function(req, res) {
     });
 });
 
+router.get('/player/:year', function(req, res) {
+  var db = req.db;
+  var collection = db.get('ratings');
+  var year = req.param('year');
+  collection.findOne({'sbYear': year}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
+    res.send(JSON.stringify(docs));
+  });
+});
+
 router.get('/playerid/:id', function(req, res) {
   var db = req.db;
   var collection = db.get('player_information');
