@@ -1,4 +1,6 @@
 node_modules
 **/node_modules
+**/npm-debug.log
+**/*.swp
 usfl/public/box/
 usfl/views/usfl/

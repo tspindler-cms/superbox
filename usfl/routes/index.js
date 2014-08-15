@@ -32,10 +32,10 @@ router.get('/usfl/:page', function(req, res) {
 // add the player ratings for the current season
 function showPlayer(req, res, player) {
   var db = req.db;
-  var collection = db.get('player_ratings_season_2035');
+  var collection = db.get('player_ratings');
   var playerId = player['Player_ID'];
-  collection.findOne({'Player_ID': playerId}, {}, function(e, docs) {
-    docs.coll = 'player_ratings_season_2035';
+  collection.findOne({'Player_ID': playerId, 'sbYear': '2035'}, {}, function(e, docs) {
+    docs.coll = 'player_ratings';
     player.ratings = docs;
     res.send(JSON.stringify(player));
   });
@@ -74,20 +74,25 @@ router.get('/player/', function(req, res) {
     });
 });
 
-router.get('/player/:year', function(req, res) {
-  var db = req.db;
-  var collection = db.get('player_ratings_season_' + req.param('year'));
-  collection.distinct('Player_ID', function(e, docs) {
-    res.send(JSON.stringify(docs));
-  });
-});
-
 router.get('/playerid/:id', function(req, res) {
   var db = req.db;
   var collection = db.get('player_information');
   var id = req.param('id');
   collection.findOne({'Player_ID': id}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
     res.send(JSON.stringify(docs));
+  });
+});
+
+router.get('/playerid/detail/:id', function(req, res) {
+  var db = req.db;
+  var collection = db.get('ratings');
+  var id = req.param('id');
+  collection.find({'Player_ID': id}, function(e, docs) {
+    var info = db.get('player_information');
+    var detail = docs;
+    info.findOne({'Player_ID': id}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
+      res.render('playerdetail', { 'detail': detail, 'info': docs } );
+    });
   });
 });
 

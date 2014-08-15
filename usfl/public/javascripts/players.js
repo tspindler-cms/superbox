@@ -96,7 +96,7 @@ function showStat(player) {
 }
 
 function showInfo(id, name, pos, player) {
-  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li></ul><div id='tab1'>Tab1 content</div><div id='tab2'>tab2 content</div></div>");
+  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li><li><a href='#tab3'>detail</a></li></ul><div id='tab1'>Tab1 content</div><div id='tab2'>tab2 content</div><div id='tab3'><a href='/playerid/detail/" + id + "' target='_blank'>" + name + "</a></div></div>");
   $( "#dialog" ).empty().append(tabs);
   tabs.show();
   tabs.tabs();
