@@ -3,7 +3,6 @@ $(document).ready(function() {
 
   var fields = [];
   var tmpl = detail[detail.length-1];
-  console.log(tmpl);
   for (var prop in tmpl) {
     if (tmpl[prop] != "0" &&
         prop != "sbYear" &&
@@ -24,14 +23,18 @@ $(document).ready(function() {
   });
   table += "</tr>";
   detail.forEach(function(rating) {
-    console.log(rating.Year + rating.Scouting);
     var line = "<tr><td style='text-align: center'>" + rating.Year + " " + rating.Scouting + "</td>";
+    var valid = false;
     fields.forEach(function(prop) {
-      console.log(prop);
       line += "<td style='text-align: center'>" + rating[prop] + "</td>";
+      if (rating[prop] != "0") {
+        valid = true;
+      }
     });
     line += "</tr>";
-    table += line;
+    if (valid) {
+      table += line;
+    }
   });
   table += "</table>";
   $( "#detail" ).html(table);
