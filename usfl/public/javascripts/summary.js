@@ -25,7 +25,7 @@ function setup(players) {
     console.log( "Click on " + $(this).text() );
     showPlayerInfo($(this).text(), players);
   });
-  $( "#ready" ).html("<h3>Ready with 2035 player information</h3>");
+  $( "#ready" ).html("<h3><font color='black'>Ready with 2035 player information</font></h3>");
 }
 
 function showPlayerInfo(name, players) {

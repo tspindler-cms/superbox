@@ -5,7 +5,6 @@ $(document).ready(function() {
   var playerStats;
   $.ajax({
     type: "GET",
-    // url: "http://usflga.me:3000/player/2035",
     url: "/player/2035",
     dataType: "json",
     success: function(data) {console.log("got data"); getPlayers(data)}
@@ -18,13 +17,12 @@ function getPlayers(data) {
     var playerId = player.Player_ID;
     $.ajax({
         type: "GET",
-        // url: "http://usflga.me:3000/playerid/" + playerId,
         url: "/playerid/" + playerId,
         dataType: "json",
         success: function(data) {markPlayer(data)}
      });
   });
-  $( "#ready" ).html("<h3>Ready with 2035 player information</h3>");
+  $( "#ready" ).html("<h3><font color='black'>Ready with 2035 player information</font></h3>");
 }
 
 function markPlayer(player) {
