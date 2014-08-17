@@ -3,6 +3,10 @@ $(document).ready(function() {
                 .css("font-size", "80%");
 });
 
+function cleanProperty(prop) {
+  return prop.replace(/_/g, " ");
+}
+
 function stats(player) {
   var first = player["First_Name"];
   var last = player["Last_Name"];
@@ -24,7 +28,7 @@ function showStat(player) {
          (prop != "line") &&
          (prop != "sbYear") &&
          (prop != "Record_Number") ) {
-      var cleanProp = prop.replace("_", " ");
+      var cleanProp = cleanProperty(prop); 
       retStat += "<tr><td>" + cleanProp + ":</td><td align='right'>" + player.ratings[prop] + "</td></tr>\n";
     }
   }
@@ -59,7 +63,7 @@ function showStat(player) {
          (prop.indexOf("SY") < 0) &&
          (prop.indexOf("Season_1") < 0) &&
          (prop.indexOf("Home") < 0) ) {
-      var cleanProp = prop.replace(/_/g, " ");
+      var cleanProp = cleanProperty(prop);
       retStat += "<tr><td>" + cleanProp + ":</td><td align='right'>" + player[prop] + "</td></tr>\n";
     }
   }
@@ -67,15 +71,49 @@ function showStat(player) {
   $( "#tab2" ).html(retStat);
 }
 
+function lastWeek(player) {
+  var id = player["Player_ID"];
+  $.ajax({
+    type: "GET",
+    url: "/playerid/" + id + "/year/2035/week/2",
+    dataType: "json",
+    async: false,
+    success: function(data) {showLastWeek(data)}
+  });
+}
+
+function validProp(prop, value) {
+  var blockedProps = [ "_id", "line", "Record_Number", "Player_ID" ];
+  if (value == "0") {
+    return false;
+  } else if (blockedProps.indexOf(prop) > -1) {
+    return false;
+  }
+  return true;
+}
+
+function showLastWeek(player) {
+  var retStat = "<table cellpadding='2'><col width='200'><col width='100'>";
+  for (var prop in player) {
+    if (validProp(prop, player[prop])) {
+      var cleanProp = cleanProperty(prop);
+      retStat += "<tr><td>" + cleanProp + ":</td><td align='right'>" + player[prop] + "</td></tr>\n";
+    }
+  }
+  retStat += "</table>";
+  $( "#tab3" ).html(retStat);
+}
 
 function showInfo(id, name, pos, player) {
   console.log("Showing " + name);
-  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li></ul><div id='tab1'>Tab1 content</div><div id='tab2'>tab2 content</div></div>");
+  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li><li><a href='#tab3'>last week</a></li></ul><div id='tab1'>tab1 content</div><div id='tab2'>tab2 content</div><div id='tab3'>tab3 content</div></div>");
   $( "#dialog" ).empty().append(tabs);
   tabs.show();
   tabs.tabs();
+  tabs.css({height: "700px", overflow:"auto"});
   $("span.ui-dialog-title").html("<a href='/playerid/detail/" + id + "' target='_blank'>" + pos + " " + name + "</a>");
   $( "#dialog" ).parent().css({position:"fixed"}).end().dialog("open");
   stats(player);
+  lastWeek(player);
 }
 

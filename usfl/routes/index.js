@@ -161,4 +161,18 @@ router.get('/players/', function(req, res) {
     });
 });
 
+// get the seasons stat for week
+router.get('/playerid/:id/year/:year/week/:week', function(req, res) {
+  var db = req.db;
+  var collection = db.get('seasons');
+  
+  var id = req.param('id');
+  var year = req.param('year');
+  var week = req.param('week');
+
+  collection.findOne({'Player_ID': id, 'Year': year, 'Week': week}, function(e, docs) {
+    res.send(docs);
+  });
+});
+
 module.exports = router;
