@@ -1,8 +1,4 @@
 $(document).ready(function() {
-  $( "#dialog" ).dialog({ width:350 }, { autoOpen: false }, { position: { my: "left top", at: "right+20 top" } })
-                .css("font-size", "80%");;
-  var playerInfo;
-  var playerStats;
   $.ajax({
     type: "GET",
     url: "/player/2035",

@@ -1,3 +1,7 @@
+$(document).ready(function() {
+  $( "#dialog" ).dialog({ width:350 }, { autoOpen: false }, { position: { my: "left top", at: "right+20 top" } })
+                .css("font-size", "80%");
+});
 
 function stats(player) {
   var first = player["First_Name"];
@@ -18,6 +22,7 @@ function showStat(player) {
          (prop != "_id") &&
          (prop != "coll") &&
          (prop != "line") &&
+         (prop != "sbYear") &&
          (prop != "Record_Number") ) {
       var cleanProp = prop.replace("_", " ");
       retStat += "<tr><td>" + cleanProp + ":</td><td align='right'>" + player.ratings[prop] + "</td></tr>\n";

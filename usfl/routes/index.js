@@ -19,7 +19,8 @@ router.get('/usfl/:page', function(req, res) {
   console.log('page is ' + page);
   if (page.indexOf('box') > -1) {
     res.render('superbox', { 'page': page });
-  } else if (page.indexOf('summary') > -1)  {
+  } else if (page.indexOf('summary') > -1 ||
+             page.indexOf('statistics') > -1) {
     res.render('estat', { 'page' : page });
   } else if (page.indexOf('jpg') > -1 ||
              page.indexOf('gif') > -1 ||
