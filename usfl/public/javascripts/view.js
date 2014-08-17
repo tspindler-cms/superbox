@@ -49,6 +49,7 @@ function showStat(player) {
          (prop != "College") &&
          (prop != "Drafted_Position") &&
          (prop != "Player_ID") &&
+         (prop.indexOf("sbYear") < 0) &&
          (prop.indexOf("SP") < 0) &&
          (prop.indexOf("SY") < 0) &&
          (prop.indexOf("Season_1") < 0) &&
