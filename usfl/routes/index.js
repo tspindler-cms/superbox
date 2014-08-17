@@ -19,6 +19,8 @@ router.get('/usfl/:page', function(req, res) {
   console.log('page is ' + page);
   if (page.indexOf('box') > -1) {
     res.render('superbox', { 'page': page });
+  } else if (page.indexOf('summary') > -1)  {
+    res.render('estat', { 'page' : page });
   } else if (page.indexOf('jpg') > -1 ||
              page.indexOf('gif') > -1 ||
              page.indexOf('png') > -1) {
@@ -79,7 +81,25 @@ router.get('/player/:year', function(req, res) {
   var collection = db.get('ratings');
   var year = req.param('year');
   collection.find({'sbYear': year}, ['Player_ID'], function(e, docs) {
-    res.send(JSON.stringify(docs));
+    var players = [];
+    var info = db.get('player_information');
+    var wait = docs.length;
+    docs.forEach(function(player) {
+       var playerId = player.Player_ID;
+       info.findOne({'Player_ID': playerId}, ['Player_ID', 'First_Name', 'Last_Name', 'Position' ], function(e, docs) {
+         players.push(docs);
+         wait--;
+       });
+    });
+    function waitForCompletion() {
+      if (wait > 0) {
+        console.log("Wait is " + wait);
+        setTimeout(waitForCompletion, 100);
+        return;
+      }
+      res.send(JSON.stringify(players));
+    }
+    waitForCompletion();
   });
 });
 

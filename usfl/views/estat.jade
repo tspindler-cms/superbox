@@ -1,0 +1,16 @@
+html(lang="en")
+
+  head
+    title Enhanced summary
+    script( type="text/javascript", src="/javascripts/jquery-1.11.1.min.js" )
+    script.
+      $(function(){
+        $("#includedContent").load("/box/#{page}"); 
+      });
+    script( type="text/javascript", src="/javascripts/jquery-ui-1.11.0/jquery-ui.min.js" )
+    script( type="text/javascript", src="/javascripts/summary.js" )
+    link( rel="stylesheet" href="/javascripts/jquery-ui-1.11.0/jquery-ui.theme.min.css" )
+  body
+    #ready
+    #dialog
+    #includedContent
