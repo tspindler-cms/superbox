@@ -16,7 +16,7 @@ function stats(player) {
 }
 
 function showStat(player) {
-  var retStat = "<table cellpadding='4'><col width='200'><col width='100'>";
+  var retStat = "<table cellpadding='2'><col width='200'><col width='100'>";
   for (var prop in player.ratings) {
     if ( (player.ratings[prop] != "0") &&
          (prop != "_id") &&
@@ -43,7 +43,7 @@ function showStat(player) {
   player["Date of Birth"] = year + "-" + month + "-" + day;
   player["Age (roughly)"] = 2035 - year;
 
-  var retStat = "<table cellpadding='4'><col width='200'><col width='100'>";
+  var retStat = "<table cellpadding='2'><col width='200'><col width='100'>";
   for (var prop in player) {
     if ( (player[prop] != "0") &&
          (prop != "_id") &&
@@ -70,11 +70,11 @@ function showStat(player) {
 
 function showInfo(id, name, pos, player) {
   console.log("Showing " + name);
-  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li><li><a href='#tab3'>detail</a></li></ul><div id='tab1'>Tab1 content</div><div id='tab2'>tab2 content</div><div id='tab3'><a href='/playerid/detail/" + id + "' target='_blank'><font color='black'>" + name + "</font></a></div></div>");
+  var tabs = $("<div><ul><li><a href='#tab1'>stats</a></li><li><a href='#tab2'>info</a></li></ul><div id='tab1'>Tab1 content</div><div id='tab2'>tab2 content</div></div>");
   $( "#dialog" ).empty().append(tabs);
   tabs.show();
   tabs.tabs();
-  $("span.ui-dialog-title").text(pos + " " + name);
+  $("span.ui-dialog-title").html("<a href='/playerid/detail/" + id + "' target='_blank'>" + pos + " " + name + "</a>");
   $( "#dialog" ).parent().css({position:"fixed"}).end().dialog("open");
   stats(player);
 }

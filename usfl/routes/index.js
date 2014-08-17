@@ -20,6 +20,7 @@ router.get('/usfl/:page', function(req, res) {
   if (page.indexOf('box') > -1) {
     res.render('superbox', { 'page': page });
   } else if (page.indexOf('summary') > -1 ||
+             page.indexOf('roster') > -1 ||
              page.indexOf('statistics') > -1) {
     res.render('estat', { 'page' : page });
   } else if (page.indexOf('jpg') > -1 ||
