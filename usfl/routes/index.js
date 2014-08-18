@@ -39,9 +39,16 @@ function showPlayer(req, res, player) {
   var collection = db.get('ratings');
   var playerId = player['Player_ID'];
   collection.findOne({'Player_ID': playerId, 'sbYear': '2035'}, {}, function(e, docs) {
-    docs.coll = 'player_ratings';
-    player.ratings = docs;
-    res.send(JSON.stringify(player));
+    if (docs != null) {
+      docs.coll = 'player_ratings';
+      player.ratings = docs;
+      res.send(JSON.stringify(player));
+    } else {
+      ratings = {};
+      ratings.message = "Not found";
+      player.ratings = ratings;
+      res.send(JSON.stringify(player));
+    }
   });
 }
 
