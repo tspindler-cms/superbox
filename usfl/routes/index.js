@@ -17,8 +17,11 @@ router.get('/usfl/', function(req, res) {
 router.get('/usfl/:page', function(req, res) {
   var page = req.param('page');
   console.log('page is ' + page);
-  if (page.indexOf('box') > -1) {
-    res.render('superbox', { 'page': page });
+if (page.indexOf('jpg') > -1 ||
+             page.indexOf('gif') > -1 ||
+             page.indexOf('png') > -1) {
+    console.log('found graphics');
+    res.redirect('/box/' + page);
   } else if (page.indexOf('log') > -1) {
     res.render('elog', { 'page': page });
   } else if (page.indexOf('summary') > -1 ||
@@ -26,11 +29,8 @@ router.get('/usfl/:page', function(req, res) {
              page.indexOf('draft') > -1 ||
              page.indexOf('statistics') > -1) {
     res.render('estat', { 'page' : page });
-  } else if (page.indexOf('jpg') > -1 ||
-             page.indexOf('gif') > -1 ||
-             page.indexOf('png') > -1) {
-    console.log('found graphics');
-    res.redirect('/box/' + page);
+  } else if (page.indexOf('box') > -1) {
+    res.render('superbox', { 'page': page });
   } else {
     res.render('usfl/' + page);
   }
