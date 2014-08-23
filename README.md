@@ -30,9 +30,13 @@ overview is shown in a popup window.
 
 The files for creating the mongodb based on the csv export reside in import. This is work in progress.
 For now you need to build the jars with ant and ivy:
+
   *ant runjar*
+
 The config file can be supplied with
+
   *--file=config.yml*
+
 Note that currently only the update class is defined in the jar. For accessing other classes you
 need to work with the classpath of the jar.
 
