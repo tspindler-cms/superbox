@@ -1,0 +1,16 @@
+html(lang="en")
+
+  head
+    title Enhanced log
+    script( type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" )
+    script.
+      $(function(){
+        $("#includedContent").load("/box/#{page}"); 
+      });
+    script( type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js" )
+    script( type="text/javascript", src="/javascripts/players.js" )
+    link( rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" )
+  body
+    #ready
+    #dialog
+    #includedContent
