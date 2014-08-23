@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $( "#ready" ).html("<h3><font color='black'>Loading 2035 player information</font></h3>");
   $.ajax({
     type: "GET",
     url: "/player/2035",
