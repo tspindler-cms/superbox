@@ -1,0 +1,44 @@
+<project name="hsqldbtest" default="runjar" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" />
+
+	<path id="fof7-classpath">
+		<fileset dir="lib" includes="**/*.jar"/>
+	</path>
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="lib" location="lib"/>
+	<property name="dist" location="dist"/>
+
+	<target name="dep" description="resolve dependencies with ivy">
+		<ivy:resolve />
+		<ivy:retrieve sync="true"/>
+	</target>
+
+	<target name="compile" depends="dep">
+		<exec executable="mkdir">
+			<arg value="-p"/>
+			<arg value="${bin}"/>
+		</exec>
+		<javac srcdir="${src}" destdir="${bin}" debug="true" classpathref="fof7-classpath" includeantruntime="false"/>
+	</target>
+
+	<target name="runjar" depends="compile">
+		<jar destfile="${dist}/fof7.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="de.tetet.fof7.updateCurrentSeason.MainUpdate" />
+				<attribute name="Class-Path" value="."/>
+			</manifest>
+			<fileset dir="${bin}" />
+			<fileset dir="${src}" />
+			<fileset dir="${lib}" />
+			<zipfileset excludes="META-INF/*.SF" src="lib/guava-17.0.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/slf4j-api-1.7.7.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/logback-classic-1.1.2.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/logback-core-1.1.2.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/mongo-java-driver-2.12.3.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/commons-cli-1.2.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="lib/snakeyaml-1.13.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="lib/opencsv-2.3.jar"/>
+		</jar>
+	</target>
+</project>

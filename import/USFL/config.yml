@@ -1,0 +1,5 @@
+dbname: "football"
+tmpcoll: "tmpSeason"
+coll: "seasons2"
+csv: "player_season_2035.csv"
+directory: "/Users/spindler/shared/USFL/1234USFL"

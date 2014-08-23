@@ -2,5 +2,10 @@ node_modules
 **/node_modules
 **/npm-debug.log
 **/*.swp
+**/.classpath
+**/.gitignore
+**/.project
+**/bin/de/tetet
+**/*.jar
 usfl/public/box/
 usfl/views/usfl/
