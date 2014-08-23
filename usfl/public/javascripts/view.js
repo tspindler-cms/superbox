@@ -75,7 +75,7 @@ function lastWeek(player) {
   var id = player["Player_ID"];
   $.ajax({
     type: "GET",
-    url: "/playerid/" + id + "/year/2035/week/2",
+    url: "/playerid/" + id + "/year/2035/week/3",
     dataType: "json",
     async: false,
     success: function(data) {showLastWeek(data)}

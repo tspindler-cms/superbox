@@ -10,7 +10,8 @@ var users = require('./routes/users');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/football');
+// var db = monk('localhost:27017/football');
+var db = monk('localhost:27017/usfl');
 
 var app = express();
 

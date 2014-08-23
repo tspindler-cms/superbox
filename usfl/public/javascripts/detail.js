@@ -27,7 +27,7 @@ $(document).ready(function() {
     var valid = false;
     fields.forEach(function(prop) {
       line += "<td style='text-align: center'>" + rating[prop] + "</td>";
-      if (rating[prop] != "0") {
+      if (typeof(rating[prop]) != 'undefined') {
         valid = true;
       }
     });
