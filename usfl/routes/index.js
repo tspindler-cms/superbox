@@ -19,6 +19,8 @@ router.get('/usfl/:page', function(req, res) {
   console.log('page is ' + page);
   if (page.indexOf('box') > -1) {
     res.render('superbox', { 'page': page });
+  } else if (page.indexOf('log') > -1) {
+    res.render('elog', { 'page': page });
   } else if (page.indexOf('summary') > -1 ||
              page.indexOf('roster') > -1 ||
              page.indexOf('draft') > -1 ||
