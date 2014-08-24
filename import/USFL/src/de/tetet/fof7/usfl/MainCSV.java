@@ -13,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import au.com.bytecode.opencsv.CSVReader;
+import de.tetet.fof7.compact.MainCompact;
 import de.tetet.fof7.config.Config;
 import de.tetet.fof7.config.ConfigFactory;
+import de.tetet.fof7.denorm.MainDenorm;
 
 /**
  * Main entrance 
@@ -33,6 +35,9 @@ public final class MainCSV {
 	public static void main(String[] args) {
 		if (ConfigFactory.parseArgs(args, APPNAME)) {
 			new MainCSV().saveCSV();
+			new MainCompact().compact();
+			new MainDenorm().denorm();
+			new Index().create();
 		}
 	}
 
@@ -41,6 +46,7 @@ public final class MainCSV {
 	 */
 	private void saveCSV() {
 		Config cfg = ConfigFactory.getConfig();
+		LOG.info("Config: {}", cfg);
 		String dir = cfg.getDirectory();
 		Path path = FileSystems.getDefault().getPath(dir);
 

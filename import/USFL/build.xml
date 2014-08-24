@@ -38,7 +38,7 @@
 			<zipfileset excludes="META-INF/*.SF" src="lib/mongo-java-driver-2.12.3.jar"/>
 			<zipfileset excludes="META-INF/*.SF" src="lib/commons-cli-1.2.jar"/>
 			<zipfileset excludes="META-INF/*.SF" src="lib/snakeyaml-1.13.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="lib/opencsv-2.3.jar"/>
+                        <zipfileset excludes="META-INF/*.SF" src="lib/opencsv-2.3.jar"/>
 		</jar>
 	</target>
 </project>

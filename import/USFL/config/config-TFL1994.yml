@@ -1,0 +1,5 @@
+dbname: "tfl"
+tmpcoll: "tmpSeason"
+coll: "seasons"
+csv: "player_season_1994.csv"
+directory: "/Users/spindler/Work/usfl/leaguefiles/TFL01974"

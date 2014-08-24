@@ -1,5 +1,8 @@
 package de.tetet.fof7.compact;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Objects;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -15,6 +18,8 @@ import de.tetet.mongodb.MongoDBConn;
  *
  */
 public final class MainCompact {
+	private static final Logger LOG = LoggerFactory.getLogger(MainCompact.class);;
+
 	private static final String APPNAME = "MainCompact";
 	private DB db;
 	
@@ -62,7 +67,7 @@ public final class MainCompact {
 			if (Objects.equal("_id", key)) {
 				continue;
 			}
-			System.out.println(collection + " has " + key);
+			LOG.info("{} has {}", collection, key);
 			BasicDBObject query = new BasicDBObject(key, "0");
 			BasicDBObject update = new BasicDBObject("$unset", new BasicDBObject(key, true));
 			db.getCollection(collection).update(query, update, false, true);

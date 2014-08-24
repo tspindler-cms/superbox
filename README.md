@@ -22,7 +22,7 @@ modules.
 
 The express app itself resides in the usfl directory. The routes/index.js contains the needed
 routes to connect the league html files with the usfl view. After starting the server (npm start in
-the usfl directory), the league files can be reached via http://localhost:3000/usfl/ When navigating
+the usfl directory), the league files can be reached via (http://localhost:3000/usfl/) When navigating
 to a box score file, some javascript will be injected and when a player gets clicked on, a brief
 overview is shown in a popup window.
 

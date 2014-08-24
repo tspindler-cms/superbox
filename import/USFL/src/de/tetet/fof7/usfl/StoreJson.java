@@ -42,7 +42,14 @@ public class StoreJson {
 		if (coll != null) {
 			DBObject obj = new BasicDBObject("line", line);
 			for (int i = 0; i < arr.length; i++) {
-				obj.put(heading[i], arr[i]);			
+				String cleanHdg = "" + i;
+				// Needed for transaction logs, when player changes position more fields
+				// are used than in the header, e.g. the file is sparse with regards to the header
+				// 11 fields vs 9
+				if (i < heading.length) {
+					cleanHdg = heading[i].replaceAll("\\.", "");
+				}
+				obj.put(cleanHdg, arr[i]);			
 			}
 			DBCollection collection = db.getCollection(coll);
 			collection.insert(obj);

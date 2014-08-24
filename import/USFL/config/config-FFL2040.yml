@@ -1,0 +1,5 @@
+dbname: "ffl"
+tmpcoll: "tmpSeason"
+coll: "seasons"
+csv: "player_season_2040.csv"
+directory: "/Users/spindler/Work/usfl/leaguefiles/FFL"
