@@ -7,5 +7,7 @@ node_modules
 **/.project
 **/bin/de/tetet
 **/*.jar
-usfl/public/box/
+usfl/public/fflbox
+usfl/public/usflbox
 usfl/views/usfl/
+usfl/views/ffl/
