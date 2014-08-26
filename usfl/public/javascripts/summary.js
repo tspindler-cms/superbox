@@ -1,8 +1,13 @@
 $(document).ready(function() {
-  $( "#ready" ).html("<h3><font color='black'>Loading 2035 player information</font></h3>");
+  console.log("league is " + league);
+  console.log("leagues is " + JSON.stringify(leagues));
+  var year = leagues[league]['year'];
+  $( "#ready" ).html("<h3><font color='black'>Loading " + year + " player information</font></h3>");
+  var url = "/player/" + year + "/" + league;
+  console.log("Getting " + url);
   $.ajax({
     type: "GET",
-    url: "/player/2035",
+    url: url,
     dataType: "json",
     success: function(data) {console.log("got data"); setup(data) }
   });
@@ -10,6 +15,7 @@ $(document).ready(function() {
 });
 
 function setup(players) {
+  var year = leagues[league]['year'];
 
   $( "table tr td table tr td"  )
   .filter(function() {
@@ -22,7 +28,7 @@ function setup(players) {
     console.log( "Click on " + $(this).text() );
     showPlayerInfo($(this).text(), players);
   });
-  $( "#ready" ).html("<h3><font color='black'>Ready with 2035 player information</font></h3>");
+  $( "#ready" ).html("<h3><font color='black'>Ready with " + year + " player information</font></h3>");
 }
 
 function showPlayerInfo(name, players) {

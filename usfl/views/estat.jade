@@ -5,8 +5,10 @@ html(lang="en")
     script( type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" )
     script.
       $(function(){
-        $("#includedContent").load("/box/#{page}"); 
+        $("#includedContent").load("/#{league}box/#{page}"); 
       });
+      var league =!{JSON.stringify(league)}
+      var leagues =!{JSON.stringify(leagues)}
     script( type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js" )
     script( type="text/javascript", src="/javascripts/summary.js" )
     link( rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" )

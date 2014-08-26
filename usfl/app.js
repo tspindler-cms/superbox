@@ -10,16 +10,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk(config.db);
-
 var app = express();
-
-// console.log("port is " + config.port);
-// var server = app.listen(config.port, function() {
-    // console.log('Listening on port %d', server.address().port);
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,10 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
-// also give access to base address for rerouting
 app.use(function(req,res,next){
-    req.db = db;
-    req.base = config.base;
+    req.dbhost = config.db;
+    req.leagues = config.leagues;
     next();
 });
 

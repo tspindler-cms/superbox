@@ -10,9 +10,11 @@ function cleanProperty(prop) {
 function stats(player) {
   var first = player["First_Name"];
   var last = player["Last_Name"];
+  var url = "/player/" + first + "/" + last + "/" + league;
+  console.log(url);
   $.ajax({
     type: "GET",
-    url: "/player/" + first + "/" + last,
+    url: url,
     dataType: "json",
     async: false,
     success: function(data) {showStat(data)}
@@ -45,7 +47,7 @@ function showStat(player) {
   player["Month_Born"] = "0";
   player["Day_Born"] = "0";
   player["Date of Birth"] = year + "-" + month + "-" + day;
-  player["Age (roughly)"] = 2035 - year;
+  player["Age (roughly)"] = leagues[league]['year'] - year;
 
   var retStat = "<table cellpadding='2'><col width='200'><col width='100'>";
   for (var prop in player) {
@@ -73,9 +75,13 @@ function showStat(player) {
 
 function lastWeek(player) {
   var id = player["Player_ID"];
+  var year = leagues[league]["year"];
+  var week = leagues[league]["week"];
+  var url =  "/playerid/" + id + "/year/" + year + "/week/" + week + "/" + league;
+  console.log("Last week stat " + year + " " + week + ":" + url);
   $.ajax({
     type: "GET",
-    url: "/playerid/" + id + "/year/2035/week/3",
+    url: url,
     dataType: "json",
     async: false,
     success: function(data) {showLastWeek(data)}
@@ -111,7 +117,7 @@ function showInfo(id, name, pos, player) {
   tabs.show();
   tabs.tabs();
   tabs.css({height: "700px", overflow:"auto"});
-  $("span.ui-dialog-title").html("<a href='/playerid/detail/" + id + "' target='_blank'>" + pos + " " + name + "</a>");
+  $("span.ui-dialog-title").html("<a href='/playerid/detail/" + id + "/" + league + "' target='_blank'>" + pos + " " + name + "</a>");
   $( "#dialog" ).parent().css({position:"fixed"}).end().dialog("open");
   stats(player);
   lastWeek(player);

@@ -1,24 +1,32 @@
 var globalPlayers = [];
 
 $(document).ready(function() {
-  $( "#ready" ).html("<h3><font color='black'>Loading 2035 player information</font></h3>");
+  console.log("league is " + league);
+  console.log("leagues is " + JSON.stringify(leagues));
+  var year = leagues[league]['year'];
+  $( "#ready" ).html("<h3><font color='black'>Loading " + year + " player information</font></h3>");
+  var url = "/player/" + year + "/" + league;
+  console.log("Getting " + url);
+
   $.ajax({
     type: "GET",
-    url: "/player/2035",
+    url: url,
     dataType: "json",
-    success: function(data) {console.log("got data"); setup(data); } // getPlayers(data)}
+    success: function(data) {console.log("got data"); setup(data); } 
   });
   $.getScript('/javascripts/view.js');
 });
 
 function setup(players) {
+  var year = leagues[league]['year'];
+
   $( "font" )
   .click(function() {
     console.log("clicked on " + $(this).text());
     showPlayerInfo($(this).text(), players);
   });
 
-  $( "#ready" ).html("<h3><font color='black'>Ready with 2035 player information</font></h3>");
+  $( "#ready" ).html("<h3><font color='black'>Ready with " + year + " player information</font></h3>");
 }
 
 function showPlayer(playerId) {
