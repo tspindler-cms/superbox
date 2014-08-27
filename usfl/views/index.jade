@@ -6,15 +6,17 @@ block content
   table
     thead
       tr
+        th Logo
         th League Homepage
-        th Year
         th Week
+        th Year
         th Enhanced Pages
     each league in leagues
       tr
+        td <img src='#{league.logo}' width='48'/>
         td <a href='#{league.url}'>#{league.name}</a>
-        td #{league.year}
         td #{league.week}
+        td #{league.year}
         td <a href='league/#{league.entry}'>#{league.entry} pages</a>
   p When you visit the pages for the different leagues, the player information is loaded. When you click on a player name you see various statistics on him, if the player is still on the current player list.
   p You can find the source code for the enhanced pages on <a href='https://github.com/tspindler-cms/superbox'>github</a>.
