@@ -6,7 +6,7 @@ var monk = require('monk');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Sample title page', 'leagues': req.leagues });
 });
 
 
