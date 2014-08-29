@@ -2,13 +2,11 @@ var express = require('express');
 var router = express.Router();
 var mongo = require('mongodb');
 var monk = require('monk');
-// var db = monk(config.db);
 
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Leagues Overview', 'leagues': req.leagues });
 });
-
 
 router.get('/league/:league', function(req, res) {
   var league = req.param('league');
@@ -18,7 +16,6 @@ router.get('/league/:league', function(req, res) {
 router.get('/league/:league/', function(req, res) {
   var league = req.param('league');
   res.redirect(league + '/index.html');
-  // res.redirect('/usfl/index.html');
 });
 
 router.get('/league/:league/:page', function(req, res) {
@@ -48,8 +45,7 @@ router.get('/league/:league/:page', function(req, res) {
 
 
 // add the player ratings for the current season
-function showPlayer(req, res, player, league, year) {
-  var db = monk(req.dbhost + league);
+function showPlayer(req, res, player, league, year, db) {
   var collection = db.get('ratings');
   var playerId = player['Player_ID'];
   collection.findOne({'Player_ID': playerId, 'sbYear': year}, {}, function(e, docs) {
@@ -63,6 +59,7 @@ function showPlayer(req, res, player, league, year) {
       player.ratings = ratings;
       res.send(JSON.stringify(player));
     }
+    db.close();
   });
 }
 
@@ -76,11 +73,9 @@ router.get('/player/:first/:last/:league', function(req, res) {
   var collection = db.get('player_information');
   var first = req.param('first');
   var last = req.param('last');
-  console.log('looking for ' + first + ' ' + last);
   collection.findOne({'First_Name': req.param('first'), 'Last_Name': req.param('last')}, {}, function(e, docs) {
-    console.log('this is found: ' + JSON.stringify(docs));
     docs.coll = 'player_information';
-    showPlayer(req, res, docs, league, year);
+    showPlayer(req, res, docs, league, year, db);
   });
 });
 
@@ -99,6 +94,7 @@ router.get('/player/:league', function(req, res) {
         player.Last_Name = p.Last_Name;
         players.push(player);
       });
+      db.close();
       res.send(JSON.stringify(players));
     }
   });
@@ -130,6 +126,7 @@ router.get('/player/:year/:league', function(req, res) {
           return;
         }
         res.send(JSON.stringify(players));
+        db.close();
       }
       waitForCompletion();
     } else {
@@ -145,6 +142,7 @@ router.get('/playerid/:id/:league', function(req, res) {
   var id = req.param('id');
   collection.findOne({'Player_ID': id}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
     res.send(JSON.stringify(docs));
+    db.close();
   });
 });
 
@@ -158,6 +156,7 @@ router.get('/playerid/detail/:id/:league', function(req, res) {
     var detail = docs;
     info.findOne({'Player_ID': id}, ['Player_ID', 'First_Name', 'Last_Name', 'Position'], function(e, docs) {
       res.render('playerdetail', { 'detail': detail, 'info': docs } );
+      db.close();
     });
   });
 });
@@ -182,6 +181,7 @@ router.get('/playerid/year/:year/:league', function(req, res) {
       players.push(player);
     });
     res.send(JSON.stringify(players));
+    db.close();
   });
 });
 
@@ -193,7 +193,8 @@ router.get('/players/:league', function(req, res) {
   collection.find({},{},function(e,docs){
     res.render('playerinfo', {
       'playerinfo' : docs
-    });
+    }); 
+    db.close();
   });
 });
 
@@ -209,6 +210,7 @@ router.get('/playerid/:id/year/:year/week/:week/:league', function(req, res) {
 
   collection.findOne({'Player_ID': id, 'Year': year, 'Week': week}, function(e, docs) {
     res.send(docs);
+    db.close();
   });
 });
 

@@ -7,10 +7,30 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongodb = require('mongodb');
+var monk = require('monk');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+var dbs = {};
+
+function dbpool(db, coll) {
+  if (typeof(dbs[db]) == 'undefined') {
+    dbs[db] = {};
+  }
+
+  if (typeof(dbs[db][coll]) != 'undefined') {
+    console.log("Serving db");
+    return dbs[db][coll];
+  } else {
+    console.log("New db");
+    dbs[db][coll] = monk(db).get(coll);
+    return dbs[db][coll];
+  }
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req,res,next){
     req.dbhost = config.db;
     req.leagues = config.leagues;
+    req.dbpool = dbpool;
     next();
 });
 
