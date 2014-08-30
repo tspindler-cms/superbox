@@ -4,11 +4,18 @@ var mongo = require('mongodb');
 var monk = require('monk');
 // var db = monk(config.db);
 
+function leaguedata() {
+  return  {'name': 'USFL'}
+}
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'Leagues Overview', 'leagues': req.leagues });
 });
 
+router.get('/home/:page', function(req, res) {
+  res.render('home/' + req.param('page'), { 'leaguedata': leaguedata() });
+});
 
 router.get('/league/:league', function(req, res) {
   var league = req.param('league');
