@@ -3,17 +3,19 @@ var router = express.Router();
 var mongo = require('mongodb');
 var monk = require('monk');
 
-function leaguedata(host, page, callback) {
-  var league = 'usfl';
-  var year = '2035';
+function leaguedata(req, callback) {
+  var league = req.param('league');
+  var year = req.leagues[league]['year'];
+  var host = req.dbhost;
   var db = monk(host + league);
   var standings = db.get('standings');
+  console.log('Getting standings for ' + league + ' ' + year);
   standings.find({'Year': year}, {}, function(e, docs) {
     var ret = {};
     ret['name'] = league;
     ret['standings'] = docs;
     db.close();
-    callback(page, ret);
+    callback(league, ret);
   });
 }
 
@@ -22,9 +24,9 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Leagues Overview', 'leagues': req.leagues });
 });
 
-router.get('/home/:page', function(req, res) {
-  leaguedata(req.dbhost, req.param('page'), function(page, docs) {
-    res.render('home/' + page, { 'leaguedata': docs });
+router.get('/home/:league', function(req, res) {
+  leaguedata(req, function(page, docs) {
+    res.render('home/' + page, { 'leaguedata': docs, 'leagues': req.leagues });
   });
 });
 

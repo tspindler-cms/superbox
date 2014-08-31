@@ -1,9 +1,20 @@
 $(document).ready(function() {
   $( "#dynamic" ).html(JSON.stringify(ld["name"]));
-  console.log("ld:" + JSON.stringify(ld));
+  displayStandings(ld);
+  console.log(JSON.stringify(leagues));
+});
 
 
+function displayStandings(ld) {
   var standings = {};
+  ld["standings"].forEach(function(doc) {
+    var div = doc["Division"];
+    if (standings[div] == undefined) {
+      standings[div] = {};
+    }
+    var team = getTeamName(doc["Team"]);
+    standings[div][team] = {};
+  });
   ld["standings"].forEach(function(doc) {
     ["Wins", "Losses", "Team"].forEach(function(field) {
       if (doc[field] == undefined) {
@@ -12,23 +23,21 @@ $(document).ready(function() {
     });
     var div = doc["Division"];
     var team = getTeamName(doc["Team"]);
-    console.log(doc["Division"] + " " + doc["Wins"] + " " + doc["Losses"] + " " + doc["Team"]);
-    if (standings[div] == undefined) {
-      standings[div] = {};
-    }
-    if (standings[div][team] == undefined) {
-      standings[div][team] = {};
-    }
+    // if (standings[div][team] == undefined) {
+      // standings[div][team] = {};
+    // }
     standings[div][team]["Wins"] = doc["Wins"];
     standings[div][team]["Losses"] = doc["Losses"];
+    standings[div][team]["Place"] = doc["Place"];
   });
 
-  var delay = 2000;
+  var delay = 4000;
   var i = 0;
   var keys = [];
   for (var div in standings) {
     keys.push(div);
   }
+  // endless recursion to show different league
   function showDivStanding() {
     if (i < keys.length) {
       i++;
@@ -36,20 +45,26 @@ $(document).ready(function() {
     if (i == keys.length) {
       i = 0;
     }
-    setTimeout(showDivStanding, delay * i);
+    setTimeout(showDivStanding, delay);
     var html = getHtmlStanding(standings, keys[i]);
     $( "#dynamic" ).html(html);
     return;
   }
   showDivStanding();
-});
+}
 
 function getHtmlStanding(standings, div) {
-  console.log(JSON.stringify(standings[div]));
-  var h = "<h3>"  + div + "</h3><table>";
+  // sort the teams in div
+  var sortedDiv = [];
   for (team in standings[div]) {
-    h += "<tr><td align='left'>" +  team + "</td><td>" + standings[div][team]["Wins"] + "</td><td>" + standings[div][team]["Losses"] + "</td></tr>"; 
+    sortedDiv.push([team, standings[div][team]["Place"]]);
   }
+  sortedDiv.sort(function(a, b) { return a[1] - b[1] });
+  var h = "<h3>"  + div + "</h3><table>";
+  sortedDiv.forEach(function(doc) {
+    var team = doc[0];
+    h += "<tr><td align='left'>" +  team + "</td><td>" + standings[div][team]["Wins"] + "</td><td>" + standings[div][team]["Losses"] + "</td></tr>"; 
+  });
   h += "</table>";
   return h;
 }
