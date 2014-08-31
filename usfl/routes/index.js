@@ -3,8 +3,18 @@ var router = express.Router();
 var mongo = require('mongodb');
 var monk = require('monk');
 
-function leaguedata() {
-  return  {'name': 'USFL'}
+function leaguedata(host, page, callback) {
+  var league = 'usfl';
+  var year = '2035';
+  var db = monk(host + league);
+  var standings = db.get('standings');
+  standings.find({'Year': year}, {}, function(e, docs) {
+    var ret = {};
+    ret['name'] = league;
+    ret['standings'] = docs;
+    db.close();
+    callback(page, ret);
+  });
 }
 
 /* GET home page. */
@@ -13,7 +23,9 @@ router.get('/', function(req, res) {
 });
 
 router.get('/home/:page', function(req, res) {
-  res.render('home/' + req.param('page'), { 'leaguedata': leaguedata() });
+  leaguedata(req.dbhost, req.param('page'), function(page, docs) {
+    res.render('home/' + page, { 'leaguedata': docs });
+  });
 });
 
 router.get('/league/:league', function(req, res) {
@@ -127,7 +139,7 @@ router.get('/player/:year/:league', function(req, res) {
           wait--;
         });
       });
-      function waitForCompletion() {
+       function waitForCompletion() {
         if (wait > 0) {
           console.log("Wait is " + wait);
           setTimeout(waitForCompletion, 100);
@@ -136,7 +148,7 @@ router.get('/player/:year/:league', function(req, res) {
         res.send(JSON.stringify(players));
         db.close();
       }
-      waitForCompletion();
+     waitForCompletion();
     } else {
       res.send("Found no players");
     }
